@@ -1,0 +1,64 @@
+name: Build Windows
+
+on:
+  push:
+<<<<<<< HEAD
+    branches: [main]
+  pull_request:
+    branches: [main]
+=======
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+>>>>>>> 25486e6 (flutter)
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+<<<<<<< HEAD
+=======
+    runs-on: windows-latest
+>>>>>>> 25486e6 (flutter)
+    strategy:
+      matrix:
+        arch: [x64, arm64]
+        include:
+          - arch: x64
+<<<<<<< HEAD
+            runner: windows-latest
+            build-path: build/windows/x64/runner/Release/
+          - arch: arm64
+            runner: windows-latest-arm64
+            build-path: build/windows/arm64/runner/Release/
+    runs-on: ${{ matrix.runner }}
+=======
+            build-path: build/windows/x64/runner/Release/
+          - arch: arm64
+            build-path: build/windows/arm64/runner/Release/
+>>>>>>> 25486e6 (flutter)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze code
+        run: flutter analyze
+
+      - name: Build Windows app (${{ matrix.arch }})
+        run: flutter build windows --release
+
+      - name: Upload Windows build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build-${{ matrix.arch }}
+          path: ${{ matrix.build-path }}
