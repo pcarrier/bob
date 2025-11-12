@@ -1,0 +1,10 @@
+[package]
+name = "bob"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+confy = "2"
+iced = "0.13"
+rfd = "0.15"
+rquickjs = "0.10"
