@@ -117,7 +117,18 @@ class Project {
     required this.tasks,
     this.sites = const [],
     this.launchDirectory,
-  }) : path = p.normalize(path);
+  }) : path = _normalizePath(path);
+
+  /// Normalize path and remove trailing separators
+  static String _normalizePath(String path) {
+    var normalized = p.normalize(path);
+    // Remove trailing separator, but keep root paths like C:\ intact
+    if (normalized.length > 1 &&
+        (normalized.endsWith(p.separator) || normalized.endsWith('/'))) {
+      normalized = normalized.substring(0, normalized.length - 1);
+    }
+    return normalized;
+  }
 
   factory Project.fromPackageJson(String path, Map<String, dynamic> json) {
     final name = json['name'] as String? ?? 'Unnamed Project';

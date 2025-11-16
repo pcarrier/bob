@@ -416,7 +416,9 @@ class _ProjectTile extends StatelessWidget {
                               : null),
                     ),
                   ),
-                  subtitle: task.status != TaskStatus.idle
+                  subtitle: task.status != TaskStatus.idle &&
+                             (task.status == TaskStatus.running ||
+                              (task.lastExitCode != null && task.lastExitCode != 0))
                       ? Text(
                           task.status == TaskStatus.running
                               ? 'Running...'
